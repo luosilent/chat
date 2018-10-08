@@ -5,28 +5,21 @@
  * Date: 2018/9/20
  * Time: 16:53
  */
-error_reporting(0);
+//error_reporting(0);
 function conn()
 {
-    $driver = 'mysql';
-    $dbName = 'chat';
-    $host    = 'localhost';
     $charset = 'utf8';
-    $dsn = "$driver:host=$host;dbName=$dbName;charset=$charset";
+    $dsn = 'mysql:host=localhost;dbname=chat';
     $uName = "root";
     $pWord = "root";
 
     try {
-        $conn = new PDO($dsn, $uName, $pWord);
+        $conn = new PDO($dsn, $uName, $pWord, array(PDO::ATTR_PERSISTENT => true));
         $conn->query("set NAMES $charset");
-        //添加使用数据库
-        $str = "use $dbName";
-        $conn->exec($str);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     } catch (PDOException $e) {
-        $error = "Access denied! ";
-        $ext = $e->getMessage();
-        echo $error . $ext;
+        echo iconv('gbk', 'utf-8', $e->getMessage());
+        die();
     }
 
     return $conn;

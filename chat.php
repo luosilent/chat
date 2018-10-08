@@ -1,11 +1,5 @@
 <?php
-require 'Connect/conn.php';
 session_start();
-if (empty($_SESSION['username'])) {
-    header("HTTP/1.1 303 See Other");
-    header("Location: index.php");
-    exit;
-}
 ?>
 <!DOCTYPE html>
 <head>
@@ -66,25 +60,61 @@ if (empty($_SESSION['username'])) {
                     type: "post",
                     data: {"msg": msg},
                     success: function (data) {
-                        var chatcontent = '';
-                        var obj = JSON.parse(data);
                         if (data) {
+                            // console.log(data);
+                            var obj = JSON.parse(data);
+                            var chatcontent = '';
                             $.each(obj, function (key, val) {
-                                if (val['uid'] == uid) {
-                                    chatcontent += "<li class='right'>" + val['content'] + "</li>";
+                                var ptime = val['post_time'];
+                                if (ptime === undefined) {
+                                    var nowDate = new Date();
+                                    ptime = nowDate.toLocaleString();
+                                }
+                                var dTime = timeFn(ptime);
+                                if (val['uid'] === uid) {
+                                    if (dTime > 3) {
+                                        chatcontent += "<li class='time'>" + ptime + "</li>" + "<li class='right'>" + val['content'] + "</li>";
+                                    }
+                                    else {
+                                        chatcontent += "<li class='right'>" + val['content'] + "</li>";
+                                    }
+
                                 } else {
-                                    chatcontent += "<li class='left'>" + val['username'] + "：" + val['content'] + "</li>";
+                                    if (dTime > 3) {
+                                        chatcontent += "<li class='time'>" + ptime + "</li>" + "<li class='left'>" + val['username'] + "：" + val['content'] + "</li>";
+                                    }
+                                    else {
+                                        chatcontent += "<li class='left'>" + val['username'] + "：" + val['content'] + "</li>";
+                                    }
+
                                 }
                             });
                             $("#chatshow").html(chatcontent);
                             bottom();
                         }
                         getData("");
+                    },
+                    error:function () {
+                        console.log(1)
                     }
                 });
             }
 
             getData("one");
+
+            function timeFn(d) {
+                var dateBegin = new Date(d.replace("-", "/"));//将-转化为/，使用new Date
+                var dateEnd = new Date();//获取当前时间
+                var dateDiff = dateEnd.getTime() - dateBegin.getTime();//时间差的毫秒数
+                var dayDiff = Math.floor(dateDiff / (24 * 3600 * 1000));//计算出相差天数
+                var leave1 = dateDiff % (24 * 3600 * 1000);    //计算天数后剩余的毫秒数
+                var hours = Math.floor(leave1 / (3600 * 1000));//计算出小时数
+                //计算相差分钟数
+                var leave2 = leave1 % (3600 * 1000);   //计算小时数后剩余的毫秒数
+                minutes = Math.floor(leave2 / (60 * 1000));//计算相差分钟数
+
+                return minutes;
+            }
 
             $("#userlist p").click(function () {
                 $("#content").val("@" + $(this).text() + " ");
@@ -99,6 +129,7 @@ if (empty($_SESSION['username'])) {
         <h1>在线用户</h1>
         <div>
             <?php
+            require 'Connect/conn.php';
             $conn = conn();
             $sql = "select * from member where islogin = :islogin";
             $stmt = $conn->prepare($sql);
@@ -114,7 +145,6 @@ if (empty($_SESSION['username'])) {
         <h1>离线用户</h1>
         <div>
             <?php
-            $conn = conn();
             $sql = "select * from member where islogin = :islogin";
             $stmt = $conn->prepare($sql);
             $stmt->bindValue(':islogin', '0');

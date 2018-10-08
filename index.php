@@ -16,6 +16,7 @@ if (!empty($_SESSION['username'])) {
         function trim(str) { //删除左右两端的空格
             return str.replace(/(^\s*)|(\s*$)/g, "");
         }
+
         function login() {
             var name = trim($("input[name='name']").val());
             var pwd = trim($("input[name='pwd']").val());
@@ -41,6 +42,7 @@ if (!empty($_SESSION['username'])) {
                 }
             });
         }
+
         function register() {
             var name = trim($("input[name='name']").val());
             var pwd = trim($("input[name='pwd']").val());
@@ -67,6 +69,7 @@ if (!empty($_SESSION['username'])) {
                 }
             });
         }
+
         $(function () {
             $("#button").click(function () {
                 login();
@@ -85,20 +88,21 @@ if (!empty($_SESSION['username'])) {
         <div class="login-logo" style="margin-bottom: 15px ">
             <img style="width: 400px" src="img/logo.gif"/>
         </div>
-<form>
-        <div class="form-group has-feedback">
-            <input type="text" class="form-control" placeholder="用户名" name="name"/>
-        </div>
-        <div class="form-group has-feedback">
-            <input type="password" class="form-control" placeholder="密码" name="pwd" autocomplete="on"/>
-        </div>
+        <form>
+            <div class="form-group has-feedback">
+                <input type="text" class="form-control" placeholder="用户名" name="name"/>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="password" class="form-control" placeholder="密码" name="pwd" autocomplete="on"/>
+            </div>
 
-        <div class="row">
-            <input type="button" class="btn btn-primary btn-block btn-flat" id="button" value="登录"/>
-            <input type="button" style="margin-right: 10px;" class="btn btn-primary btn-block btn-flat" id="register"
-                   value="注册"/>
-        </div>
-</form>
+            <div class="row">
+                <input type="button" class="btn btn-primary btn-block btn-flat" id="button" value="登录"/>
+                <input type="button" style="margin-right: 10px;" class="btn btn-primary btn-block btn-flat"
+                       id="register"
+                       value="注册"/>
+            </div>
+        </form>
     </div>
 </div>
 <div class="common_footer">

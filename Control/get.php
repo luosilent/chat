@@ -1,6 +1,6 @@
 <?php
 require '../Connect/conn.php';
-set_time_limit(0);
+//set_time_limit(0);
 if ($_POST['msg'] == "one") {
     $data = getContent();
     if ($data == "[]") {
@@ -14,7 +14,6 @@ if ($_POST['msg'] == "one") {
 }
 
 $old = getData();
-
 while (true) {
     $new = getData();
     if ($new > $old) {
@@ -22,7 +21,8 @@ while (true) {
         print_r($newdata);
         break;
     }
-    usleep(10000);
+
+    usleep(2000);
 }
 
 function getContent()
@@ -40,11 +40,12 @@ function getContent()
             $data[] = array(
                 'username' => $row['username'],
                 'content' => $row['content'],
-                'uid' => $row['uid']
+                'post_time' => $row['post_time'],
+                'uid' => $row['uid'],
             );
         }
-    }else{
-        $data = array();
+    } else {
+        $data[] = array();
     }
 
     return json_encode($data);
@@ -54,10 +55,13 @@ function getData()
 {
     $conn = conn();
     $sql = "SELECT count(*) FROM talkroom";
+    $rowNum = 0;
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     $rows = $stmt->fetch();
-
-    return $rows[0];
+    if ($rows)
+        $rowNum = $rows[0];
+    $conn = null;
+    return $rowNum;
 
 }

@@ -65,9 +65,15 @@ body {
     -moz-animation: show-chat-odd 0.15s 1 ease-in;
     -webkit-animation: show-chat-odd 0.15s 1 ease-in;
     float: right;
-    margin-right: 80px;
     color: #0AD5C1;
     margin: 0 80px 20px 0;
+}
+.time {
+    position: relative;
+    float: right;
+    right: 32%;
+    color: #cfd4d5;
+    margin: 10px;
 }
 
 .right:before {
@@ -85,7 +91,6 @@ body {
     -moz-animation: show-chat-even 0.15s 1 ease-in;
     -webkit-animation: show-chat-even 0.15s 1 ease-in;
     float: left;
-    margin-left: 80px;
     color: #0EC879;
     margin: 0 0 20px 80px;
 }

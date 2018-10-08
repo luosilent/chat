@@ -10,6 +10,7 @@ if (isset($_POST['content'])) {
     $stmt->bindParam(":content", $content);
     $stmt->bindParam(":uid", $_SESSION['uid']);
     $res = $stmt->execute();
+
     return $res;
 
 }
