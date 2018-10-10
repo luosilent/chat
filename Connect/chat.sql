@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: 2018-09-26 00:46:29
+-- Generation Time: 2018-10-10 01:42:48
 -- 服务器版本： 5.6.37
 -- PHP Version: 7.1.8
 
@@ -25,18 +25,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- 表的结构 `talkroom`
---
-
-CREATE TABLE `talkroom` (
-  `id` int(11) NOT NULL,
-  `uid` int(11) NOT NULL,
-  `content` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-
---
 -- 表的结构 `member`
 --
 
@@ -46,3 +34,60 @@ CREATE TABLE `member` (
   `password` varchar(255) NOT NULL,
   `islogin` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `member`
+--
+ALTER TABLE `member`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id` (`id`),
+  ADD UNIQUE KEY `username` (`username`);
+
+--
+-- 在导出的表使用AUTO_INCREMENT
+--
+
+--
+-- 使用表AUTO_INCREMENT `member`
+--
+ALTER TABLE `member`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;
+
+
+--
+-- 表的结构 `talkroom`
+--
+
+CREATE TABLE `talkroom` (
+  `id` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `content` text NOT NULL,
+  `post_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `talkroom`
+--
+ALTER TABLE `talkroom`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id` (`id`);
+
+--
+-- 在导出的表使用AUTO_INCREMENT
+--
+
+--
+-- 使用表AUTO_INCREMENT `talkroom`
+--
+ALTER TABLE `talkroom`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;
