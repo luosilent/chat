@@ -45,7 +45,7 @@ session_start();
                         success: function (res) {
                             var obj = JSON.parse(res);
                             if (obj.code == 0) {
-                                window.location.reload();
+                                 window.location.href = "index.php";
                             } else if (obj.code == 1) {
                                 alert(obj.msg);
                             }
